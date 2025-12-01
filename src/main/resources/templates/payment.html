@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --accent-cyan: #00e5ff;
+            --text-primary: #e8e8e8;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        
+        .loading-container {
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 229, 255, 0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        h2 { margin-bottom: 8px; }
+        p { color: #6b7280; }
+        
+        .brand-logo {
+            margin-bottom: 32px;
+        }
+        
+        .brand-logo a {
+            font-family: 'Outfit', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-logo .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #60a5fa;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+            letter-spacing: -1px;
+        }
+        
+        .brand-logo .logo-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.2;
+        }
+        
+        .brand-logo .logo-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-logo .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #e8e8e8;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="brand-logo">
+            <a href="/">
+                <div class="logo-icon">&lt;/&gt;</div>
+                <div class="logo-text">
+                    <span class="logo-main">backendwithvenu</span>
+                    <span class="logo-sub">java • springboot • microservices</span>
+                </div>
+            </a>
+        </div>
+        <div class="spinner"></div>
+        <h2>Initializing Payment...</h2>
+        <p>Please wait while we connect to Razorpay</p>
+    </div>
+
+    <script th:inline="javascript">
+        const options = {
+            "key": [[${razorpayKey}]],
+            "amount": [[${amount}]],
+            "currency": "INR",
+            "name": "Java & Spring Knowledge Boost",
+            "description": "961 Interview Questions PDF",
+            "order_id": [[${orderId}]],
+            "prefill": {
+                "name": [[${user.name}]],
+                "email": [[${user.email}]],
+                "contact": [[${user.phoneNumber}]]
+            },
+            "config": {
+                "display": {
+                    "hide": [
+                        { "method": "emi" },
+                        { "method": "paylater" }
+                    ]
+                }
+            },
+            "theme": {
+                "color": "#00e5ff"
+            },
+            "handler": function(response) {
+                // Verify payment on server
+                fetch('/payment/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        razorpayOrderId: response.razorpay_order_id,
+                        razorpayPaymentId: response.razorpay_payment_id,
+                        razorpaySignature: response.razorpay_signature
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Pass email status and orderId to success page
+                        const params = new URLSearchParams({
+                            emailSent: data.emailSent,
+                            orderId: data.orderId
+                        });
+                        window.location.href = '/success?' + params.toString();
+                    } else {
+                        alert('Payment verification failed. Please contact support.');
+                        window.location.href = '/register';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                    window.location.href = '/register';
+                });
+            },
+            "modal": {
+                "ondismiss": function() {
+                    window.location.href = '/register';
+                }
+            }
+        };
+        
+        const rzp = new Razorpay(options);
+        rzp.open();
+    </script>
+</body>
+</html>
+

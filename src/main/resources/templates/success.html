@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg-card: #12121a;
+            --accent-emerald: #10b981;
+            --accent-cyan: #00e5ff;
+            --accent-warning: #f59e0b;
+            --text-primary: #e8e8e8;
+            --text-muted: #6b7280;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+        
+        .success-container {
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-emerald), #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .success-icon svg {
+            width: 60px;
+            height: 60px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawCheck 0.5s ease-out 0.3s forwards;
+        }
+        
+        @keyframes drawCheck {
+            from { stroke-dashoffset: 100; }
+            to { stroke-dashoffset: 0; }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            animation: fadeUp 0.5s ease-out 0.2s both;
+        }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            animation: fadeUp 0.5s ease-out 0.4s both;
+        }
+        
+        .email-highlight {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+            animation: fadeUp 0.5s ease-out 0.6s both;
+        }
+        
+        .email-highlight.success {
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+        
+        .email-highlight.warning {
+            border-color: rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .email-highlight span {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        .email-highlight.warning span {
+            color: var(--accent-warning);
+        }
+        
+        .email-highlight small {
+            display: block;
+            margin-top: 8px;
+            color: #6b7280;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeUp 0.5s ease-out 0.8s both;
+        }
+        
+        .home-link, .resend-btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .home-link {
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            background: transparent;
+        }
+        
+        .home-link:hover {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+        
+        .resend-btn {
+            color: #000;
+            background: var(--accent-warning);
+            border: 1px solid var(--accent-warning);
+        }
+        
+        .resend-btn:hover {
+            background: #d97706;
+            border-color: #d97706;
+        }
+        
+        .resend-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .resend-btn.success-state {
+            background: var(--accent-emerald);
+            border-color: var(--accent-emerald);
+        }
+        
+        .status-message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            animation: fadeUp 0.3s ease-out;
+        }
+        
+        .status-message.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+        }
+        
+        .status-message.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-emerald);
+            animation: confetti-fall 3s ease-out forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .hidden { display: none !important; }
+        
+        .brand-logo {
+            position: absolute;
+            top: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .brand-logo a {
+            font-family: 'Outfit', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-logo .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #60a5fa;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+            letter-spacing: -1px;
+        }
+        
+        .brand-logo .logo-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.2;
+        }
+        
+        .brand-logo .logo-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-logo .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #e8e8e8;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="brand-logo">
+        <a href="/">
+            <div class="logo-icon">&lt;/&gt;</div>
+            <div class="logo-text">
+                <span class="logo-main">backendwithvenu</span>
+                <span class="logo-sub">java • springboot • microservices</span>
+            </div>
+        </a>
+    </div>
+    
+    <div class="success-container">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        
+        <h1>Payment Successful! 🎉</h1>
+        
+        <p class="message">
+            Thank you for your purchase! Your interview preparation journey begins now.
+        </p>
+        
+        <!-- Email Sent Successfully -->
+        <div id="email-success" class="email-highlight success hidden">
+            📧 Check your <span>email inbox</span> for the PDF.
+            <small>It may take a few minutes to arrive. Also check your spam folder.</small>
+        </div>
+        
+        <!-- Email Failed - Show Resend Option -->
+        <div id="email-failed" class="email-highlight warning hidden">
+            ⚠️ <span>Email delivery failed</span>
+            <small>Don't worry! Your payment was successful. Click the button below to resend the PDF to your email.</small>
+        </div>
+        
+        <div class="buttons-container">
+            <button id="resend-btn" class="resend-btn hidden" onclick="resendEmail()">
+                📧 Resend PDF Email
+            </button>
+            <a href="/" class="home-link">← Back to Home</a>
+        </div>
+        
+        <div id="status-message" class="status-message hidden"></div>
+    </div>
+    
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailSent = urlParams.get('emailSent') === 'true';
+        const orderId = urlParams.get('orderId');
+        
+        // Show appropriate UI based on email status
+        if (emailSent) {
+            document.getElementById('email-success').classList.remove('hidden');
+        } else {
+            document.getElementById('email-failed').classList.remove('hidden');
+            document.getElementById('resend-btn').classList.remove('hidden');
+        }
+        
+        // Resend email function
+        async function resendEmail() {
+            const btn = document.getElementById('resend-btn');
+            const statusMsg = document.getElementById('status-message');
+            
+            // Disable button and show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Sending...';
+            statusMsg.classList.add('hidden');
+            
+            try {
+                const response = await fetch('/payment/resend-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ orderId: orderId })
+                });
+                
+                const data = await response.json();
+                
+                statusMsg.classList.remove('hidden', 'success', 'error');
+                
+                if (data.success) {
+                    statusMsg.classList.add('success');
+                    statusMsg.textContent = '✅ ' + data.message;
+                    btn.innerHTML = '✓ Email Sent!';
+                    btn.classList.add('success-state');
+                    
+                    // Update UI to show success state
+                    document.getElementById('email-failed').classList.add('hidden');
+                    document.getElementById('email-success').classList.remove('hidden');
+                    
+                    // Hide resend button after success
+                    setTimeout(() => {
+                        btn.classList.add('hidden');
+                    }, 3000);
+                } else {
+                    statusMsg.classList.add('error');
+                    statusMsg.textContent = '❌ ' + data.message;
+                    btn.innerHTML = '📧 Retry Resend';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                statusMsg.classList.remove('hidden');
+                statusMsg.classList.add('error');
+                statusMsg.textContent = '❌ Network error. Please try again.';
+                btn.innerHTML = '📧 Retry Resend';
+                btn.disabled = false;
+            }
+        }
+        
+        // Create confetti effect
+        const colors = ['#10b981', '#00e5ff', '#ffc107', '#ef4444', '#8b5cf6'];
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                confetti.style.height = confetti.style.width;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }, i * 50);
+        }
+    </script>
+</body>
+</html>
+

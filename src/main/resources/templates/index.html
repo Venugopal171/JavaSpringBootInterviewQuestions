@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="961+ Java & Spring Boot Interview Questions with detailed answers. Land your dream job with our comprehensive interview preparation guide.">
+    <meta name="keywords" content="Java Interview Questions, Spring Boot Interview, Java Developer Jobs, Interview Preparation">
+    <title>Java & Spring Boot Interview Mastery | 961+ Questions | Land Your Dream Job</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: 100px;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            line-height: 1.7;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #60a5fa;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            letter-spacing: -1px;
+        }
+        
+        .logo .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        
+        .logo .logo-main {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo .logo-sub {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo span { color: var(--primary); }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+        
+        .nav-menu a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover { color: var(--primary); }
+        
+        .nav-cta {
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-cta:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        @media (max-width: 900px) {
+            .nav-menu { display: none; }
+            .mobile-menu-btn { display: block; }
+            
+            .nav-links.active .nav-menu {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 24px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+                gap: 16px;
+            }
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 80px;
+            background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--dark);
+        }
+        
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+        }
+        
+        .price-tag {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .price-original {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .price-current {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .hero-visual {
+            position: relative;
+        }
+        
+        .hero-image {
+            background: var(--gradient);
+            border-radius: 24px;
+            padding: 40px;
+            color: white;
+            position: relative;
+            box-shadow: 0 24px 48px rgba(37, 99, 235, 0.2);
+        }
+        
+        .ebook-preview {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            color: var(--dark);
+        }
+        
+        .ebook-preview h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .ebook-preview ul {
+            list-style: none;
+        }
+        
+        .ebook-preview li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+        
+        .ebook-preview li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        /* Trust Badges */
+        .trust-section {
+            padding: 40px 0;
+            background: var(--light);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .trust-badge svg {
+            width: 24px;
+            height: 24px;
+            color: var(--success);
+        }
+        
+        /* Problem Section */
+        .problem-section {
+            padding: 80px 0;
+            background: var(--dark);
+            color: white;
+        }
+        
+        .problem-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .problem-card {
+            background: var(--dark-light);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .problem-card .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .problem-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        
+        .problem-card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+        
+        /* What's Inside */
+        .inside-section {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-label {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .section-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .inside-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .inside-card {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .inside-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        
+        .inside-card .icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .inside-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+        
+        .inside-card .count {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        .inside-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Screenshots Section */
+        .screenshots-section {
+            padding: 80px 0;
+            background: var(--light);
+        }
+        
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .screenshot-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        
+        .screenshot-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .screenshot-card p {
+            padding: 16px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        /* Who Is This For */
+        .audience-section {
+            padding: 100px 0;
+        }
+        
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        .audience-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: white;
+            border-radius: 16px;
+            border: 2px solid var(--light);
+            transition: all 0.3s;
+        }
+        
+        .audience-card:hover {
+            border-color: var(--primary);
+        }
+        
+        .audience-card .emoji {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        
+        .audience-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .audience-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Author Section */
+        .author-section {
+            padding: 80px 0;
+            background: var(--dark);
+            color: white;
+        }
+        
+        .author-content {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 48px;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .author-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--primary);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        
+        .author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+        }
+        
+        .author-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .author-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .author-info p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+        
+        .author-credentials {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .credential {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            padding: 100px 0;
+            background: var(--light);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-stars {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+        
+        .testimonial-text {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 24px;
+            font-style: italic;
+            line-height: 1.8;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .testimonial-name {
+            font-weight: 600;
+        }
+        
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .testimonial-date {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--light);
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Benefits Section */
+        .benefits-section {
+            padding: 100px 0;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            gap: 16px;
+            padding: 24px;
+            background: var(--light);
+            border-radius: 12px;
+        }
+        
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .benefit-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        
+        .benefit-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            padding: 100px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+        
+        .pricing-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .pricing-section > p {
+            opacity: 0.9;
+            margin-bottom: 48px;
+            font-size: 1.1rem;
+        }
+        
+        .pricing-card {
+            background: white;
+            color: var(--dark);
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+        }
+        
+        .pricing-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        
+        .pricing-amount {
+            margin-bottom: 24px;
+        }
+        
+        .pricing-original {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1.5rem;
+        }
+        
+        .pricing-current {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .pricing-current span {
+            font-size: 1.5rem;
+        }
+        
+        .pricing-features {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .btn-buy {
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        
+        .btn-buy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.4);
+        }
+        
+        .guarantee {
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: 100px 0;
+        }
+        
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid var(--light);
+            padding: 24px 0;
+        }
+        
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+        
+        .faq-answer {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 24px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .footer-brand p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .footer-bottom p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .payment-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* Policy Pages */
+        .policy-section {
+            padding: 40px 0;
+            background: var(--light);
+        }
+        
+        .policy-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 48px;
+            border-radius: 16px;
+        }
+        
+        .policy-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 24px;
+        }
+        
+        .policy-content h3 {
+            font-size: 1.2rem;
+            margin: 24px 0 12px;
+        }
+        
+        .policy-content p {
+            color: var(--gray);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+        
+        /* Urgency Banner */
+        .urgency-banner {
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-cta { justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-visual { display: none; }
+            .author-content { grid-template-columns: 1fr; text-align: center; }
+            .author-image { margin: 0 auto; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .screenshots-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-stats { justify-content: center; }
+            .trust-badges { flex-direction: column; gap: 16px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .pricing-card { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Urgency Banner -->
+    <div class="urgency-banner">
+        🔥 Launch Offer: Get 40% OFF — Limited Time Only! Use code: LAUNCH40
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="/" class="logo">
+                    <div class="logo-icon">&lt;/&gt;</div>
+                    <div class="logo-text">
+                        <span class="logo-main">backendwithvenu</span>
+                        <span class="logo-sub">java • springboot • microservices</span>
+                    </div>
+                </a>
+                <div class="nav-links" id="navLinks">
+                    <ul class="nav-menu">
+                        <li><a href="#whats-inside">What's Inside</a></li>
+                        <li><a href="#audience">Who's It For</a></li>
+                        <li><a href="#author">About</a></li>
+                        <li><a href="#testimonials">Reviews</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                    <a href="/register" class="nav-cta">Buy Now →</a>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        📚 Complete Interview Preparation Kit
+                    </div>
+                    <h1>Land Your Dream <span>Java Developer</span> Job in 30 Days</h1>
+                    <p class="hero-subtitle">
+                        Stop wasting months on scattered YouTube videos. Get the complete Java & Spring Boot 
+                        interview preparation guide trusted by 500+ developers who cracked interviews at 
+                        top companies.
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Topics Covered</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Happy Devs</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">4.9★</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-cta">
+                        <a href="/register" class="btn-primary">
+                            Get Instant Access →
+                        </a>
+                        <div class="price-tag">
+                            <span class="price-original">₹499</span>
+                            <span class="price-current" th:text="'₹' + ${price}">₹299</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="hero-image">
+                        <div class="ebook-preview">
+                            <h3>📖 What You'll Master</h3>
+                            <ul>
+                                <li>Core Java & OOP Concepts</li>
+                                <li>Spring Boot & Microservices</li>
+                                <li>REST API Design Patterns</li>
+                                <li>Database & SQL Questions</li>
+                                <li>System Design Basics</li>
+                                <li>Coding Challenges</li>
+                                <li>Behavioral Interview Tips</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Trust Badges -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <span>🔒</span> Secure Payment via Razorpay
+                </div>
+                <div class="trust-badge">
+                    <span>📧</span> Instant PDF Download
+                </div>
+                <div class="trust-badge">
+                    <span>💯</span> Lifetime Access
+                </div>
+                <div class="trust-badge">
+                    <span>🔄</span> Free Updates Forever
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <h2>😰 Struggling with Java Interviews?</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="emoji">📚</div>
+                    <h3>Information Overload</h3>
+                    <p>Countless YouTube videos, blogs, and resources but no clear roadmap to follow.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="emoji">⏰</div>
+                    <h3>Wasting Precious Time</h3>
+                    <p>Spending months preparing without knowing what actually gets asked in interviews.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="emoji">😓</div>
+                    <h3>Interview Anxiety</h3>
+                    <p>Freezing up during interviews because you haven't practiced real questions.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="emoji">🎯</div>
+                    <h3>Missing Key Topics</h3>
+                    <p>Not knowing which Spring Boot or Microservices questions to focus on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- What's Inside Section -->
+    <section class="inside-section" id="whats-inside">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">📦 Complete Package</div>
+                <h2>Everything You Need to Crack Your Interview</h2>
+                <p>Carefully curated questions with detailed explanations, code examples, and real-world scenarios — organized by topic for easy learning.</p>
+            </div>
+            
+            <div class="inside-grid">
+                <div class="inside-card">
+                    <div class="icon">☕</div>
+                    <h3>Core Java Concepts</h3>
+                    <div class="count">106 Questions</div>
+                    <p>OOP, Collections, Multithreading, Exception Handling, Java 8+ features with clear explanations.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🧩</div>
+                    <h3>Output-Based Questions</h3>
+                    <div class="count">67 Questions</div>
+                    <p>Tricky code snippets that test your understanding. Know exactly what output to expect.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🌊</div>
+                    <h3>Java Streams & Scenarios</h3>
+                    <div class="count">100 Questions</div>
+                    <p>Real-world stream operations, lambda expressions, and functional programming scenarios.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🍃</div>
+                    <h3>Spring & Spring Boot</h3>
+                    <div class="count">130 Questions</div>
+                    <p>DI, AOP, Security, Data JPA, Auto-configuration, Actuator, and production-ready concepts.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🔌</div>
+                    <h3>REST API Design</h3>
+                    <div class="count">30 Questions</div>
+                    <p>HTTP methods, status codes, versioning, error handling, and best practices.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🏗️</div>
+                    <h3>Spring Scenarios</h3>
+                    <div class="count">56 Questions</div>
+                    <p>Real-world scenarios: transaction management, caching, async processing, and more.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🧪</div>
+                    <h3>Testing Questions</h3>
+                    <div class="count">25 Questions</div>
+                    <p>JUnit 5, Mockito, Integration testing, TDD practices every developer should know.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">💡</div>
+                    <h3>Tricky & Indirect Questions</h3>
+                    <div class="count">366 Questions</div>
+                    <p>Questions interviewers love to ask to test depth of understanding.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">💻</div>
+                    <h3>Coding Challenges</h3>
+                    <div class="count">50 Questions</div>
+                    <p>Arrays, Strings, and DSA problems commonly asked in Java interviews.</p>
+                </div>
+                <div class="inside-card">
+                    <div class="icon">🗣️</div>
+                    <h3>Behavioral Questions</h3>
+                    <div class="count">31 Questions</div>
+                    <p>HR round questions with sample answers to showcase your soft skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Screenshots Section -->
+    <section class="screenshots-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">👀 Sneak Peek</div>
+                <h2>See What's Inside the Guide</h2>
+                <p>Beautifully formatted, easy to read, and packed with value.</p>
+            </div>
+            
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <div class="screenshot-placeholder">📄</div>
+                    <p>Clean Table of Contents</p>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-placeholder">💻</div>
+                    <p>Code Examples with Explanations</p>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-placeholder">✅</div>
+                    <p>Detailed Answers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Who Is This For -->
+    <section class="audience-section" id="audience">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">🎯 Perfect For</div>
+                <h2>Who Is This Guide For?</h2>
+            </div>
+            
+            <div class="audience-grid">
+                <div class="audience-card">
+                    <div class="emoji">🎓</div>
+                    <h3>Fresh Graduates</h3>
+                    <p>Starting your Java developer journey and need interview prep</p>
+                </div>
+                <div class="audience-card">
+                    <div class="emoji">💼</div>
+                    <h3>0-3 Years Experience</h3>
+                    <p>Building strong foundations and cracking your first big role</p>
+                </div>
+                <div class="audience-card">
+                    <div class="emoji">🚀</div>
+                    <h3>3-5 Years Experience</h3>
+                    <p>Targeting senior developer roles at top companies</p>
+                </div>
+                <div class="audience-card">
+                    <div class="emoji">⭐</div>
+                    <h3>5-8 Years Experience</h3>
+                    <p>Preparing for Lead/Principal Engineer positions</p>
+                </div>
+                <div class="audience-card">
+                    <div class="emoji">👑</div>
+                    <h3>8-10+ Years Experience</h3>
+                    <p>Brushing up concepts for Architect & Tech Lead interviews</p>
+                </div>
+                <div class="audience-card">
+                    <div class="emoji">🔄</div>
+                    <h3>Career Switchers</h3>
+                    <p>Moving to Java from another programming language</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Author Section -->
+    <section class="author-section" id="author">
+        <div class="container">
+            <div class="author-content">
+                <div class="author-image">
+                    <img src="/images/profile.jpg" alt="Venugopal D - Author">
+                </div>
+                <div class="author-info">
+                    <div class="section-label" style="background: rgba(255,255,255,0.1);">Meet Your Guide</div>
+                    <h2>Hi, I'm Venugopal D 👋</h2>
+                    <div class="author-title">SDE 2 at Billdesk (Jocata)</div>
+                    <p>
+                        I've been in your shoes. I know the struggle of preparing for Java interviews — 
+                        the endless searching, the uncertainty, the anxiety. After cracking interviews 
+                        at multiple companies and helping 500+ developers land their dream jobs, I compiled 
+                        everything into this comprehensive guide.
+                    </p>
+                    <p>
+                        This isn't just a list of questions. It's a practical guide with answers and 
+                        explanations to help you learn, revise, and connect theory with real-world scenarios.
+                    </p>
+                    <div class="author-credentials">
+                        <div class="credential">✓ SDE 2 at Billdesk (Jocata)</div>
+                        <div class="credential">✓ 500+ Developers Helped</div>
+                        <div class="credential">✓ Regular Content Updates</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">💬 Real Developer Stories</div>
+                <h2>Trusted by 500+ Developers</h2>
+                <p>Here's what developers who used this guide have to say</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Bro, I was mass applying for jobs with zero confidence. Found this guide on Instagram, 
+                        thought ₹299 is nothing compared to coaching fees. Best decision! Got selected at Cognizant 
+                        after 3 failed interviews. The Spring Boot scenarios section saved me. 🙌"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AK</div>
+                        <div>
+                            <div class="testimonial-name">Arun Kumar</div>
+                            <div class="testimonial-role">Fresher → Associate at Cognizant</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-date">Purchased: Oct 2025</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "I've been working for 4 years and thought I knew Java well. This guide humbled me 😅 
+                        So many tricky questions I never thought about. Revised everything in 2 weeks and cleared 
+                        Capgemini interview. Got 45% hike! Worth every rupee."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">PS</div>
+                        <div>
+                            <div class="testimonial-name">Priya Sharma</div>
+                            <div class="testimonial-role">4 YOE → Senior Dev at Capgemini</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-date">Purchased: Sep 2025</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★☆</div>
+                    <p class="testimonial-text">
+                        "Good compilation of questions. I was preparing from YouTube and random blogs for months - 
+                        waste of time honestly. This is organized properly. Only suggestion: add more microservices 
+                        questions. But overall 4/5, helped me clear Accenture interview."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RV</div>
+                        <div>
+                            <div class="testimonial-name">Ravi Verma</div>
+                            <div class="testimonial-role">Java Developer at Accenture</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-date">Purchased: Nov 2025</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Career switch from manual testing to Java development. Had no idea what to expect in interviews. 
+                        This guide covered everything from basics to advanced. Took me 1 month to prepare, now working 
+                        as Java dev at a startup. Life changing! 🚀"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SM</div>
+                        <div>
+                            <div class="testimonial-name">Sneha M.</div>
+                            <div class="testimonial-role">QA → Java Developer (Career Switch)</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-date">Purchased: Aug 2025</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Already referred this to 3 of my juniors. The output-based questions section is gold - 
+                        literally got 4 questions from there in my TCS Digital interview. PDF quality is also good, 
+                        easy to read on phone during commute. Thanks Venu bhai! 👍"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">VR</div>
+                        <div>
+                            <div class="testimonial-name">Vikram Reddy</div>
+                            <div class="testimonial-role">Software Engineer at TCS Digital</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-date">Purchased: Oct 2025</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "8 years experience here. Bought this for interview prep after a long gap. Surprised to see 
+                        how comprehensive it is. Even senior-level scenario questions are covered. Cleared L2 round 
+                        at Jio Platforms. This is not just for freshers!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">KN</div>
+                        <div>
+                            <div class="testimonial-name">Karthik N.</div>
+                            <div class="testimonial-role">8 YOE → Lead Engineer at Jio</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-date">Purchased: Sep 2025</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">🎁 What You Get</div>
+                <h2>Benefits & Guaranteed Outcomes</h2>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">⏱️</div>
+                    <div>
+                        <h3>Save 100+ Hours</h3>
+                        <p>No more scattered searching. Everything organized in one place.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <div>
+                        <h3>Interview-Ready in Days</h3>
+                        <p>Focused preparation on what actually gets asked.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <div>
+                        <h3>Land Higher Salary</h3>
+                        <p>Confident interviews lead to better offers.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔄</div>
+                    <div>
+                        <h3>Lifetime Updates</h3>
+                        <p>New questions added monthly. Always stay current.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📱</div>
+                    <div>
+                        <h3>Read Anywhere</h3>
+                        <p>PDF works on phone, tablet, laptop — study on the go.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🏆</div>
+                    <div>
+                        <h3>Proven Results</h3>
+                        <p>500+ developers have already benefited from this guide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2>🚀 Get Instant Access Now</h2>
+            <p>One-time payment. Lifetime access. Free updates forever.</p>
+            
+            <div class="pricing-card">
+                <div class="pricing-badge">🔥 LAUNCH OFFER — 40% OFF</div>
+                <div class="pricing-amount">
+                    <div class="pricing-original">₹499</div>
+                    <div class="pricing-current"><span>₹</span><span th:text="${price}">299</span></div>
+                </div>
+                
+                <ul class="pricing-features">
+                    <li>All Topics Covered (Java, Spring, REST, Testing)</li>
+                    <li>Detailed Answers & Explanations</li>
+                    <li>Code Examples & Real Scenarios</li>
+                    <li>Spring Boot & Microservices Coverage</li>
+                    <li>Coding Challenges with Solutions</li>
+                    <li>Behavioral Interview Guide</li>
+                    <li>Instant PDF Download</li>
+                    <li>Lifetime Free Updates</li>
+                </ul>
+                
+                <a href="/register" class="btn-buy">
+                    Buy Now — Get Instant Access →
+                </a>
+                
+                <div class="guarantee">
+                    🔒 Secure Payment via Razorpay | 📧 Instant Delivery
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">❓ FAQs</div>
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3 class="faq-question">How will I receive the PDF?</h3>
+                    <p class="faq-answer">
+                        After successful payment, you'll receive the PDF instantly via email to the address 
+                        you provided during checkout. Check your inbox (and spam folder) within 5 minutes.
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What payment methods are accepted?</h3>
+                    <p class="faq-answer">
+                        We accept all major payment methods via Razorpay: UPI (GPay, PhonePe, Paytm), 
+                        Credit/Debit Cards, Net Banking, and Wallets.
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Is this suitable for freshers?</h3>
+                    <p class="faq-answer">
+                        Absolutely! This guide covers questions from fresher to 5 years experience level. 
+                        Questions are organized by difficulty, so you can focus on what's relevant for you.
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Will I get updates?</h3>
+                    <p class="faq-answer">
+                        Yes! The guide is updated on the 5th of every month with new questions and topics. 
+                        Keep your purchase email safe to access the latest version.
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I read on mobile?</h3>
+                    <p class="faq-answer">
+                        Yes! The PDF is optimized for all devices — phone, tablet, or laptop. 
+                        Study anywhere, anytime.
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Is there a refund policy?</h3>
+                    <p class="faq-answer">
+                        Due to the digital nature of the product, we don't offer refunds once the PDF is delivered. 
+                        However, if you face any technical issues, contact us and we'll help resolve them.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 42px; height: 42px; background: linear-gradient(135deg, #1e3a5f, #2563eb); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 600; color: #60a5fa; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">&lt;/&gt;</div>
+                        <div>
+                            <h3 style="margin: 0; font-size: 1.3rem;">backend<span style="color: var(--primary);">withvenu</span></h3>
+                            <span style="font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.85); letter-spacing: 0.5px;">java • springboot • microservices</span>
+                        </div>
+                    </div>
+                    <p>
+                        Helping Java developers land their dream jobs with comprehensive 
+                        interview preparation resources. Created by Venugopal D, for developers.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#whats-inside">What's Inside</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#refund">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><a href="mailto:backendwithvenu@gmail.com">📧 backendwithvenu@gmail.com</a></li>
+                        <li><a href="tel:+918106502879">📱 +91 8106502879</a></li>
+                        <li><a href="#">📍 Hyderabad, India</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 backendwithvenu. All rights reserved.</p>
+                <div class="payment-methods">
+                    <span class="payment-badge">UPI</span>
+                    <span class="payment-badge">Cards</span>
+                    <span class="payment-badge">NetBanking</span>
+                    <span class="payment-badge">Razorpay Secured</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Policy Sections (Hidden, shown via anchor) -->
+    <section class="policy-section" id="privacy">
+        <div class="container">
+            <div class="policy-content">
+                <h2>Privacy Policy</h2>
+                <p><strong>Last Updated:</strong> November 2025</p>
+                
+                <h3>Information We Collect</h3>
+                <p>We collect information you provide directly: name, email address, and phone number when you make a purchase.</p>
+                
+                <h3>How We Use Your Information</h3>
+                <p>Your information is used solely for:</p>
+                <ul>
+                    <li>Processing your payment securely via Razorpay</li>
+                    <li>Delivering the purchased PDF to your email</li>
+                    <li>Sending product updates (if applicable)</li>
+                </ul>
+                
+                <h3>Data Security</h3>
+                <p>We use industry-standard encryption and secure payment processing through Razorpay. We never store your payment card details.</p>
+                
+                <h3>Third-Party Services</h3>
+                <p>We use Razorpay for payment processing. Their privacy policy applies to payment transactions.</p>
+                
+                <h3>Contact</h3>
+                <p>For privacy concerns, email us at backendwithvenu@gmail.com or call +91 8106502879</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="policy-section" id="terms">
+        <div class="container">
+            <div class="policy-content">
+                <h2>Terms of Service</h2>
+                <p><strong>Last Updated:</strong> November 2025</p>
+                
+                <h3>Product Description</h3>
+                <p>This is a digital downloadable PDF product containing Java & Spring Boot interview questions and answers.</p>
+                
+                <h3>License</h3>
+                <p>Upon purchase, you receive a personal, non-transferable license to use the PDF for your own interview preparation. Redistribution, resale, or sharing of the PDF is prohibited.</p>
+                
+                <h3>Delivery</h3>
+                <p>The PDF is delivered instantly via email after successful payment. Please ensure you provide a valid email address.</p>
+                
+                <h3>Updates</h3>
+                <p>Free updates are provided to all customers. Access updates using your original purchase email.</p>
+                
+                <h3>Disclaimer</h3>
+                <p>While this guide is designed to help with interview preparation, we cannot guarantee job placement. Success depends on individual effort and circumstances.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="policy-section" id="refund">
+        <div class="container">
+            <div class="policy-content">
+                <h2>Refund Policy</h2>
+                <p><strong>Last Updated:</strong> November 2025</p>
+                
+                <h3>Digital Product Policy</h3>
+                <p>Due to the instant-delivery digital nature of this product, we generally do not offer refunds once the PDF has been delivered to your email.</p>
+                
+                <h3>Exceptions</h3>
+                <p>We will consider refunds in the following cases:</p>
+                <ul>
+                    <li>You did not receive the PDF within 24 hours of payment</li>
+                    <li>The PDF is corrupted or unreadable</li>
+                    <li>Duplicate/accidental purchase (must be reported within 24 hours)</li>
+                </ul>
+                
+                <h3>How to Request</h3>
+                <p>Email us at backendwithvenu@gmail.com or call +91 8106502879 with your order details and reason for refund request. We'll respond within 48 hours.</p>
+                
+                <h3>Processing Time</h3>
+                <p>Approved refunds are processed within 5-7 business days to your original payment method.</p>
+            </div>
+        </div>
+    </section>
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+        
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
