@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Java Interview Questions</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0a0a0f;
-            --bg-card: #12121a;
-            --accent-cyan: #00e5ff;
-            --accent-gold: #ffc107;
-            --text-primary: #e8e8e8;
-            --text-muted: #6b7280;
+            --bg: #0c0c0c;
+            --bg-card: #141414;
+            --accent: #c9a227;
+            --accent-light: #e8d48b;
+            --text: #ffffff;
+            --text-muted: #888888;
+            --border: #2a2a2a;
             --error: #ef4444;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -29,23 +32,25 @@
             padding: 40px 20px;
         }
         
-        .bg-gradient {
+        .bg-pattern {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 70%, rgba(0, 229, 255, 0.1) 0%, transparent 50%);
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.05) 0%, transparent 50%);
             z-index: -1;
         }
         
         .form-container {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
             padding: 48px;
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
         }
         
@@ -60,7 +65,7 @@
             transition: color 0.2s;
         }
         
-        .back-link:hover { color: var(--accent-cyan); }
+        .back-link:hover { color: var(--accent); }
         
         .brand-logo {
             text-align: center;
@@ -68,7 +73,6 @@
         }
         
         .brand-logo a {
-            font-family: 'Outfit', sans-serif;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -78,50 +82,42 @@
         .brand-logo .logo-icon {
             width: 46px;
             height: 46px;
-            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            background: linear-gradient(135deg, var(--accent), #8b7355);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: #60a5fa;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+            color: var(--bg);
             letter-spacing: -1px;
         }
         
         .brand-logo .logo-text {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            line-height: 1.2;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.5px;
         }
         
-        .brand-logo .logo-main {
-            font-size: 1.4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #3b82f6, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .brand-logo .logo-sub {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #e8e8e8;
-            letter-spacing: 0.5px;
+        .brand-logo .logo-text span {
+            color: var(--accent);
         }
         
         h1 {
-            font-size: 1.75rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
             margin-bottom: 8px;
+            color: var(--text);
         }
         
         .subtitle {
             color: var(--text-muted);
             margin-bottom: 32px;
+            font-size: 0.95rem;
         }
         
         .form-group {
@@ -130,31 +126,32 @@
         
         label {
             display: block;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 8px;
             font-size: 0.9rem;
+            color: var(--text-muted);
         }
         
         input {
             width: 100%;
             padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
             font-size: 1rem;
             transition: all 0.2s;
         }
         
         input:focus {
             outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
         }
         
         input::placeholder {
-            color: var(--text-muted);
+            color: #555;
         }
         
         .error-message {
@@ -166,17 +163,18 @@
         .global-error {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 16px;
             margin-bottom: 24px;
             color: var(--error);
             text-align: center;
+            font-size: 0.9rem;
         }
         
         .price-summary {
-            background: rgba(0, 229, 255, 0.05);
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            border-radius: 12px;
+            background: rgba(201, 162, 39, 0.08);
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            border-radius: 10px;
             padding: 20px;
             margin-bottom: 24px;
             display: flex;
@@ -186,32 +184,34 @@
         
         .price-label {
             color: var(--text-muted);
+            font-size: 0.95rem;
         }
         
         .price-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--accent-gold);
+            color: var(--accent);
         }
         
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, var(--accent-cyan), #0891b2);
+            background: var(--accent);
             border: none;
-            border-radius: 12px;
-            color: #000;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
+            border-radius: 10px;
+            color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
         
         .submit-btn:hover {
+            background: var(--accent-light);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 24px rgba(201, 162, 39, 0.3);
         }
         
         .secure-badge {
@@ -227,32 +227,50 @@
         .payment-icons {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
             margin-top: 24px;
             padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid var(--border);
         }
         
         .payment-icon {
             background: rgba(255, 255, 255, 0.05);
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 8px 14px;
+            border-radius: 6px;
             font-size: 0.8rem;
             color: var(--text-muted);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 520px) {
+            body { padding: 20px 16px; }
+            .form-container { 
+                padding: 32px 24px; 
+                border-radius: 16px;
+            }
+            .brand-logo .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 0.8rem;
+            }
+            .brand-logo .logo-text { font-size: 1.3rem; }
+            h1 { font-size: 1.6rem; }
+            input { padding: 14px 16px; font-size: 0.95rem; }
+            .price-value { font-size: 1.5rem; }
+            .submit-btn { padding: 16px; }
+            .payment-icons { flex-wrap: wrap; gap: 10px; }
+            .payment-icon { padding: 6px 12px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
     
     <div class="form-container">
         <div class="brand-logo">
             <a href="/">
                 <div class="logo-icon">&lt;/&gt;</div>
-                <div class="logo-text">
-                    <span class="logo-main">backendwithvenu</span>
-                    <span class="logo-sub">java • springboot • microservices</span>
-                </div>
+                <div class="logo-text">backend<span>withvenu</span></div>
             </a>
         </div>
         
@@ -305,4 +323,3 @@
     </div>
 </body>
 </html>
-

@@ -18,3 +18,4 @@ RUN mkdir -p /app/data
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
+

@@ -4,24 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Successful!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0a0a0f;
-            --bg-card: #12121a;
-            --accent-emerald: #10b981;
-            --accent-cyan: #00e5ff;
-            --accent-warning: #f59e0b;
-            --text-primary: #e8e8e8;
-            --text-muted: #6b7280;
+            --bg: #0c0c0c;
+            --bg-card: #141414;
+            --accent: #c9a227;
+            --accent-light: #e8d48b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text: #ffffff;
+            --text-muted: #888888;
+            --border: #2a2a2a;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -30,15 +34,68 @@
             overflow: hidden;
         }
         
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
         .success-container {
             text-align: center;
             max-width: 500px;
         }
         
+        .brand-logo {
+            position: absolute;
+            top: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .brand-logo a {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-logo .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), #8b7355);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--bg);
+            letter-spacing: -1px;
+        }
+        
+        .brand-logo .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+        
+        .brand-logo .logo-text span {
+            color: var(--accent);
+        }
+        
         .success-icon {
             width: 120px;
             height: 120px;
-            background: linear-gradient(135deg, var(--accent-emerald), #059669);
+            background: linear-gradient(135deg, var(--success), #059669);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -69,8 +126,9 @@
         }
         
         h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
             margin-bottom: 16px;
             animation: fadeUp 0.5s ease-out 0.2s both;
         }
@@ -90,35 +148,46 @@
         
         .email-highlight {
             background: var(--bg-card);
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 20px;
+            padding: 24px;
             margin-bottom: 32px;
             animation: fadeUp 0.5s ease-out 0.6s both;
         }
         
         .email-highlight.success {
-            border-color: rgba(16, 185, 129, 0.5);
+            border-color: rgba(16, 185, 129, 0.4);
         }
         
         .email-highlight.warning {
-            border-color: rgba(245, 158, 11, 0.5);
-            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.05);
         }
         
         .email-highlight span {
-            color: var(--accent-cyan);
+            color: var(--accent);
             font-weight: 600;
         }
         
+        .email-highlight.success span {
+            color: var(--success);
+        }
+        
         .email-highlight.warning span {
-            color: var(--accent-warning);
+            color: var(--warning);
         }
         
         .email-highlight small {
             display: block;
             margin-top: 8px;
-            color: #6b7280;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .spam-warning {
+            color: var(--warning) !important;
+            margin-top: 12px !important;
+            font-weight: 500;
         }
         
         .buttons-container {
@@ -132,62 +201,67 @@
         .home-link, .resend-btn {
             display: inline-block;
             text-decoration: none;
-            padding: 12px 32px;
+            padding: 14px 32px;
             border-radius: 8px;
-            transition: all 0.2s;
+            transition: all 0.3s;
             font-family: inherit;
             font-size: 1rem;
             cursor: pointer;
+            font-weight: 500;
         }
         
         .home-link {
-            color: var(--accent-cyan);
-            border: 1px solid var(--accent-cyan);
+            color: var(--accent);
+            border: 1px solid var(--accent);
             background: transparent;
         }
         
         .home-link:hover {
-            background: var(--accent-cyan);
-            color: #000;
+            background: var(--accent);
+            color: var(--bg);
         }
         
         .resend-btn {
-            color: #000;
-            background: var(--accent-warning);
-            border: 1px solid var(--accent-warning);
+            color: var(--bg);
+            background: var(--warning);
+            border: 1px solid var(--warning);
         }
         
         .resend-btn:hover {
             background: #d97706;
             border-color: #d97706;
+            transform: translateY(-2px);
         }
         
         .resend-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
         
         .resend-btn.success-state {
-            background: var(--accent-emerald);
-            border-color: var(--accent-emerald);
+            background: var(--success);
+            border-color: var(--success);
         }
         
         .status-message {
-            margin-top: 16px;
-            padding: 12px;
+            margin-top: 20px;
+            padding: 14px;
             border-radius: 8px;
             font-size: 0.9rem;
             animation: fadeUp 0.3s ease-out;
         }
         
         .status-message.success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--accent-emerald);
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
         .status-message.error {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.15);
             color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
         .spinner {
@@ -195,7 +269,7 @@
             width: 16px;
             height: 16px;
             border: 2px solid rgba(0, 0, 0, 0.3);
-            border-top-color: #000;
+            border-top-color: var(--bg);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin-right: 8px;
@@ -210,7 +284,6 @@
             position: fixed;
             width: 10px;
             height: 10px;
-            background: var(--accent-emerald);
             animation: confetti-fall 3s ease-out forwards;
         }
         
@@ -221,69 +294,39 @@
         
         .hidden { display: none !important; }
         
-        .brand-logo {
-            position: absolute;
-            top: 32px;
-            left: 50%;
-            transform: translateX(-50%);
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            body { padding: 80px 20px 40px; }
+            .brand-logo { top: 20px; }
+            .brand-logo .logo-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 0.8rem;
+            }
+            .brand-logo .logo-text { font-size: 1.2rem; }
+            .success-icon { width: 90px; height: 90px; margin-bottom: 24px; }
+            .success-icon svg { width: 45px; height: 45px; }
+            h1 { font-size: 2rem; }
+            .message { font-size: 1rem; margin-bottom: 28px; }
+            .email-highlight { padding: 20px; }
+            .buttons-container { flex-direction: column; gap: 12px; }
+            .home-link, .resend-btn { width: 100%; text-align: center; }
         }
         
-        .brand-logo a {
-            font-family: 'Outfit', sans-serif;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .brand-logo .logo-icon {
-            width: 46px;
-            height: 46px;
-            background: linear-gradient(135deg, #1e3a5f, #2563eb);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #60a5fa;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
-            letter-spacing: -1px;
-        }
-        
-        .brand-logo .logo-text {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            line-height: 1.2;
-        }
-        
-        .brand-logo .logo-main {
-            font-size: 1.4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #3b82f6, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .brand-logo .logo-sub {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #e8e8e8;
-            letter-spacing: 0.5px;
+        @media (max-width: 400px) {
+            h1 { font-size: 1.7rem; }
+            .message { font-size: 0.95rem; }
+            .home-link, .resend-btn { padding: 14px 20px; font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
+    <div class="bg-pattern"></div>
+    
     <div class="brand-logo">
         <a href="/">
             <div class="logo-icon">&lt;/&gt;</div>
-            <div class="logo-text">
-                <span class="logo-main">backendwithvenu</span>
-                <span class="logo-sub">java • springboot • microservices</span>
-            </div>
+            <div class="logo-text">backend<span>withvenu</span></div>
         </a>
     </div>
     
@@ -303,7 +346,8 @@
         <!-- Email Sent Successfully -->
         <div id="email-success" class="email-highlight success hidden">
             📧 Check your <span>email inbox</span> for the PDF.
-            <small>It may take a few minutes to arrive. Also check your spam folder.</small>
+            <small>It may take a few minutes to arrive.</small>
+            <small class="spam-warning">⚠️ <strong>Not in inbox?</strong> Check your <strong>Spam/Junk folder</strong> and mark it as "Not Spam"!</small>
         </div>
         
         <!-- Email Failed - Show Resend Option -->
@@ -389,7 +433,7 @@
         }
         
         // Create confetti effect
-        const colors = ['#10b981', '#00e5ff', '#ffc107', '#ef4444', '#8b5cf6'];
+        const colors = ['#c9a227', '#10b981', '#e8d48b', '#f59e0b', '#8b7355'];
         for (let i = 0; i < 50; i++) {
             setTimeout(() => {
                 const confetti = document.createElement('div');
@@ -407,4 +451,3 @@
     </script>
 </body>
 </html>
-

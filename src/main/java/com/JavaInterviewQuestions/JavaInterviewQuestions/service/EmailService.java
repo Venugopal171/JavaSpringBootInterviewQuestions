@@ -2,21 +2,37 @@ package com.JavaInterviewQuestions.JavaInterviewQuestions.service;
 
 import com.JavaInterviewQuestions.JavaInterviewQuestions.entity.User;
 import com.JavaInterviewQuestions.JavaInterviewQuestions.repository.UserRepository;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Attachments;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
 
 @Service
 @Slf4j
 public class EmailService {
     
-    private final JavaMailSender mailSender;
     private final UserRepository userRepository;
+    
+    @Value("${sendgrid.api.key}")
+    private String sendGridApiKey;
+    
+    @Value("${sendgrid.from.email}")
+    private String fromEmail;
+    
+    @Value("${sendgrid.from.name}")
+    private String fromName;
     
     @Value("${product.pdf.path}")
     private Resource pdfResource;
@@ -24,49 +40,73 @@ public class EmailService {
     @Value("${product.name}")
     private String productName;
     
-    public EmailService(JavaMailSender mailSender, UserRepository userRepository) {
-        this.mailSender = mailSender;
+    public EmailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
     
     /**
-     * Send PDF email to user
+     * Send PDF email to user using SendGrid
      * @param user the user to send email to
      * @return true if email was sent successfully, false otherwise
      */
     public boolean sendPdfEmail(User user) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            Email from = new Email(fromEmail, fromName);
+            Email to = new Email(user.getEmail());
+            String subject = "🎉 Your " + productName + " is here!";
             
-            helper.setTo(user.getEmail());
-            helper.setSubject("🎉 Your " + productName + " is here!");
+            Content content = new Content("text/html", buildEmailContent(user.getName()));
+            Mail mail = new Mail(from, subject, to, content);
             
-            // Check if PDF exists before attaching
+            // Attach PDF if available
             boolean pdfAttached = false;
             if (pdfResource != null && pdfResource.exists()) {
-                helper.addAttachment("Java-Spring-Interview-Questions.pdf", pdfResource);
-                helper.setText(buildEmailContent(user.getName()), true);
-                pdfAttached = true;
+                try (InputStream inputStream = pdfResource.getInputStream()) {
+                    byte[] pdfBytes = inputStream.readAllBytes();
+                    String encodedPdf = Base64.getEncoder().encodeToString(pdfBytes);
+                    
+                    Attachments attachment = new Attachments();
+                    attachment.setContent(encodedPdf);
+                    attachment.setType("application/pdf");
+                    attachment.setFilename("Java-Spring-Interview-Questions.pdf");
+                    attachment.setDisposition("attachment");
+                    
+                    mail.addAttachments(attachment);
+                    pdfAttached = true;
+                    log.info("PDF attached successfully for: {}", user.getEmail());
+                } catch (Exception e) {
+                    log.warn("Could not attach PDF: {}. Sending email without attachment.", e.getMessage());
+                    mail = new Mail(from, subject, to, new Content("text/html", buildEmailContentWithoutPdf(user.getName())));
+                }
             } else {
-                // Send email without attachment but with a note
-                helper.setText(buildEmailContentWithoutPdf(user.getName()), true);
                 log.warn("PDF file not found, sending email without attachment to: {}", user.getEmail());
+                mail = new Mail(from, subject, to, new Content("text/html", buildEmailContentWithoutPdf(user.getName())));
             }
             
-            mailSender.send(message);
+            // Send via SendGrid
+            SendGrid sg = new SendGrid(sendGridApiKey);
+            Request request = new Request();
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
             
-            user.setPdfDelivered(pdfAttached);
-            userRepository.save(user);
-            log.info("Email sent successfully to: {} (PDF attached: {})", user.getEmail(), pdfAttached);
-            return true;
+            Response response = sg.api(request);
             
-        } catch (MessagingException e) {
-            log.error("Failed to send email to: {} - MessagingException: {}", user.getEmail(), e.getMessage());
+            if (response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
+                user.setPdfDelivered(pdfAttached);
+                userRepository.save(user);
+                log.info("Email sent successfully via SendGrid to: {} (Status: {}, PDF attached: {})", 
+                        user.getEmail(), response.getStatusCode(), pdfAttached);
+                return true;
+            } else {
+                log.error("SendGrid API error - Status: {}, Body: {}", response.getStatusCode(), response.getBody());
+                return false;
+            }
+            
+        } catch (IOException e) {
+            log.error("Failed to send email to: {} - IOException: {}", user.getEmail(), e.getMessage());
             return false;
         } catch (Exception e) {
-            // Catch all other exceptions (including MailAuthenticationException)
-            // so payment verification doesn't fail
             log.error("Failed to send email to: {} - Error: {}", user.getEmail(), e.getMessage());
             return false;
         }
@@ -93,8 +133,14 @@ public class EmailService {
                     <p style="color: #888; font-size: 14px;">
                         Keep this email safe - it's your proof of purchase!
                     </p>
+                    <div style="background: #0f0f23; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                        <p style="margin: 0; color: #ffc107; font-size: 13px;">
+                            💡 <strong>Tip:</strong> To ensure you receive future emails, add <strong>backendwithvenu@gmail.com</strong> to your contacts!
+                        </p>
+                    </div>
                     <p style="margin-top: 30px; color: #00d9ff;">
-                        Best of luck with your interviews! 💪
+                        Best of luck with your interviews! 💪<br>
+                        <span style="color: #888;">- backendwithvenu</span>
                     </p>
                 </div>
             </body>
@@ -130,7 +176,8 @@ public class EmailService {
                         Keep this email safe - it's your proof of purchase!
                     </p>
                     <p style="margin-top: 30px; color: #00d9ff;">
-                        Best of luck with your interviews! 💪
+                        Best of luck with your interviews! 💪<br>
+                        <span style="color: #888;">- backendwithvenu</span>
                     </p>
                 </div>
             </body>
@@ -138,4 +185,3 @@ public class EmailService {
             """.formatted(name);
     }
 }
-
